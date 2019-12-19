@@ -1,0 +1,45 @@
+[System]
+Name='FuzzySnakePZeroAdjustVo'
+Type='mamdani'
+Version=2.0
+NumInputs=1
+NumOutputs=1
+NumRules=7
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='error'
+Range=[-3.14159265358979 3.14159265358979]
+NumMFs=7
+MF1='ENG':'trimf',[-3.142 -3.142 -1.571]
+MF2='ENP':'trimf',[-1.571 -0.7854 0]
+MF3='EZ':'trimf',[-0.9425 0 0.9425]
+MF4='EPP':'trimf',[0 0.7854 1.571]
+MF5='EPG':'trimf',[1.571 3.142 3.142]
+MF6='ENM':'trimf',[-2.356 -1.571 -0.7854]
+MF7='EPM':'trimf',[0.7854 1.571 2.356]
+
+[Output1]
+Name='Voltage'
+Range=[-24 24]
+NumMFs=7
+MF1='RightMovementG':'trimf',[-24 -24 -12.5]
+MF2='RightMovementP':'trimf',[-12.5 -6.25 0]
+MF3='NoMovement':'trimf',[-6 0 6]
+MF4='LeftMovementP':'trimf',[0 6.25 12.5]
+MF5='LeftMovementG':'trimf',[12.5 24 24]
+MF6='RightMovementM':'trimf',[-18.75 -12.5 -6.25]
+MF7='LeftMovementM':'trimf',[6.25 12.5 18.75]
+
+[Rules]
+1, 1 (1) : 1
+6, 6 (1) : 1
+2, 2 (1) : 1
+3, 3 (1) : 1
+4, 4 (1) : 1
+7, 7 (1) : 1
+5, 5 (1) : 1

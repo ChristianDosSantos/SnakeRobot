@@ -1,0 +1,69 @@
+[System]
+Name='SnakeRobotPDNewRules'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=25
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='error'
+Range=[-1.5707963267949 1.5707963267949]
+NumMFs=5
+MF1='ENG':'trimf',[-1.571 -1.571 -0.7854]
+MF2='ENP':'trimf',[-1.5707963267949 -0.785398163397448 0]
+MF3='EZ':'trimf',[-0.785398163397448 0 0.785398163397448]
+MF4='EPP':'trimf',[0 0.7854 1.5707963267949]
+MF5='EPG':'trimf',[0.7854 1.571 1.571]
+
+[Input2]
+Name='DeltaE'
+Range=[-3.14159265358979 3.14159265358979]
+NumMFs=5
+MF1='DENG':'trimf',[-4.712 -3.142 -1.571]
+MF2='DENP':'trimf',[-3.142 -1.571 0]
+MF3='DEZ':'trimf',[-1.571 0 1.571]
+MF4='DEPP':'trimf',[0 1.571 3.142]
+MF5='DEPG':'trimf',[1.571 3.142 4.712]
+
+[Output1]
+Name='Voltage'
+Range=[-24 24]
+NumMFs=5
+MF1='RightMovementG':'trimf',[-36 -24 -12]
+MF2='RightMovementP':'trimf',[-24 -12 0]
+MF3='NoMovement':'trimf',[-12 0 12]
+MF4='LeftMovementP':'trimf',[0 12 24]
+MF5='LeftMovementG':'trimf',[12 24 36]
+
+[Rules]
+1 1, 1 (1) : 1
+1 2, 1 (1) : 1
+1 3, 1 (1) : 1
+1 4, 1 (1) : 1
+1 5, 1 (1) : 1
+2 1, 1 (1) : 1
+2 2, 1 (1) : 1
+2 3, 1 (1) : 1
+2 4, 2 (1) : 1
+2 5, 2 (1) : 1
+3 1, 1 (1) : 1
+3 2, 2 (1) : 1
+3 3, 3 (1) : 1
+3 4, 4 (1) : 1
+3 5, 5 (1) : 1
+4 5, 5 (1) : 1
+4 4, 5 (1) : 1
+4 3, 5 (1) : 1
+4 2, 4 (1) : 1
+4 1, 4 (1) : 1
+5 5, 5 (1) : 1
+5 4, 5 (1) : 1
+5 3, 5 (1) : 1
+5 2, 5 (1) : 1
+5 1, 5 (1) : 1
