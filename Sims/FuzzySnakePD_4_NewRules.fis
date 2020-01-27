@@ -16,30 +16,30 @@ Name='error'
 Range=[-0.1 0.1]
 NumMFs=5
 MF1='ENG':'trimf',[-0.1 -0.1 -0.05]
-MF2='ENP':'trimf',[-0.1 -0.05 0]
-MF3='EZ':'trimf',[-0.05 0 0.05]
-MF4='EPP':'trimf',[0 0.05 0.1]
+MF2='ENP':'trimf',[-0.1 -0.05 -2.776e-17]
+MF3='EC':'trimf',[-0.05 -2.776e-17 0.05]
+MF4='EPP':'trimf',[-2.776e-17 0.05 0.1]
 MF5='EPG':'trimf',[0.05 0.1 0.1]
 
 [Input2]
 Name='DeltaE'
 Range=[-0.1 0.1]
 NumMFs=5
-MF1='DENG':'trimf',[-0.15 -0.1 -0.05001]
-MF2='DENP':'trimf',[-0.1 -0.05001 0]
-MF3='DEZ':'trimf',[-0.05 0 0.05]
-MF4='DEPP':'trimf',[0 0.05001 0.1]
-MF5='DEPG':'trimf',[0.05001 0.1 0.15]
+MF1='DENG':'trimf',[-0.15 -0.1 -0.05]
+MF2='DENP':'trimf',[-0.1 -0.05 0]
+MF3='DEC':'trimf',[-0.05 0 0.05]
+MF4='DEPP':'trimf',[0 0.05 0.1]
+MF5='DEPG':'trimf',[0.05 0.1 0.15]
 
 [Output1]
 Name='Voltage'
 Range=[-24 24]
 NumMFs=5
-MF1='RightMovementG':'trimf',[-36 -24 -12]
-MF2='RightMovementP':'trimf',[-24 -12 0]
-MF3='NoMovement':'trimf',[-12 0 12]
-MF4='LeftMovementP':'trimf',[0 12 24]
-MF5='LeftMovementG':'trimf',[12 24 36]
+MF1='MDG':'trimf',[-36 -24 -12]
+MF2='MDP':'trimf',[-24 -12 0]
+MF3='NM':'trimf',[-12 0 12]
+MF4='MIP':'trimf',[0 12 24]
+MF5='MIG':'trimf',[12 24 36]
 
 [Rules]
 1 1, 1 (1) : 1
