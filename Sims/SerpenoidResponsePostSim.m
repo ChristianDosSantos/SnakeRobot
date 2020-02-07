@@ -8,7 +8,7 @@ plot(t,O1Ref);
 legend('O1','O1Ref');
 figure()
 plot(t,O2);
-title('Posicion lineal de la articulacion 1');
+title('Posicion lineal de la articulacion 2');
 xlabel('Tiempo(s)');
 ylabel('Distancia(m)');
 hold on 
@@ -26,7 +26,7 @@ xlabel('Tiempo(s)');
 title('Velocidad del centro de masa en el eje transversal al desplazamiento');
 figure()
 plot(t,Theta);
-title('Angulo de referencia');
+title('Orientacion absoluta');
 ylabel('Theta (rad)');
 xlabel('Tiempo (s)');
 figure()
@@ -39,3 +39,8 @@ plot(t,Pn);
 title('Posicion en el eje Normal del centro de masa');
 ylabel('Distancia (m)');
 xlabel('Tiempo (s)');
+figure()
+plot(Px,Py);
+title('Trayectoria del centro de masa del robot serpiente');
+ylabel('Y (m)');
+xlabel('X (m)');
