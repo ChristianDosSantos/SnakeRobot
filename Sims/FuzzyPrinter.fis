@@ -1,0 +1,39 @@
+[System]
+Name='FuzzyPrinter'
+Type='sugeno'
+Version=2.0
+NumInputs=1
+NumOutputs=1
+NumRules=5
+AndMethod='prod'
+OrMethod='probor'
+ImpMethod='prod'
+AggMethod='sum'
+DefuzzMethod='wtaver'
+
+[Input1]
+Name='input1'
+Range=[-20 20]
+NumMFs=5
+MF1='ENG':'trimf',[-30 -20 -10]
+MF2='ENP':'trimf',[-20 -10 0]
+MF3='EC':'trimf',[-10 0 10]
+MF4='EPP':'trimf',[0 10 20]
+MF5='EPG':'trimf',[10 20 30]
+
+[Output1]
+Name='output1'
+Range=[0 1]
+NumMFs=5
+MF1='VNG':'linear',[0 -12]
+MF2='VNP':'linear',[0.8 -8]
+MF3='VC':'linear',[0.8 0]
+MF4='VPP':'linear',[0.8 8]
+MF5='VPG':'linear',[0 12]
+
+[Rules]
+1, 1 (1) : 1
+2, 2 (1) : 1
+3, 3 (1) : 1
+4, 4 (1) : 1
+5, 5 (1) : 1
