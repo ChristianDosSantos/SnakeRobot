@@ -1,13 +1,13 @@
 %Initializing Parameters
 Iga = 0;
-MaxIt= 100;
+MaxIt= 30;
 MutRate = 0.01;
 Npop = 6;
 MaxAmp = 10;
 % FitFun = @(a,b,c) exp( 100*(a-MaxAmp)/(0.1*MaxAmp) + 10*b + 100*(c-MaxAmp)/(0.01*MaxAmp) );
 FitFun = @(x) 1 / (1 + x);
-paso = 0.01;
-e = -20:paso:20;
+paso = 0.0001;
+e = -0.1:paso:0.1;
 Nant = 13;
 Ncon = 10;
 Cost = zeros(Npop,1);
@@ -16,40 +16,59 @@ MaxCost = zeros(Iga+1);
 MeanCost = zeros(Iga+1);
 imax = length(e);
 ConCur = zeros(1,imax);
+parAmp = 100;
+conf = 0;
+%tmax = 50;
 
 %Creating First Gen 
-antPar = 100*(2*rand(Npop,Nant)-1);
-conPar = 100*(2*rand(Npop,Ncon)-1);
+antPar = parAmp*(2*rand(Npop,Nant)-1);
+conPar = parAmp*(2*rand(Npop,Ncon)-1);
 Pop = [antPar conPar];
 
 %Calculating Fitness
 for i = 1:Npop
-    ENG = sigmf( e,[antPar(i,1) antPar(i,2)] );
-    ENP = gbellmf( e, [antPar(i,3) antPar(i,4) antPar(i,5)] );
-    EC = gbellmf( e, [antPar(i,6) antPar(i,7) antPar(i,8)] );
-    EPP = gbellmf( e, [antPar(i,9) antPar(i,10) antPar(i,11)] );
-    EPG = sigmf( e, [antPar(i,12) antPar(i,13)] );
-%     subplot(2,1,2)
-%     plot(e,ENG,e,ENP,e,EC,e,EPP,e,EPG, 'lineWidth', 3);
-%     axis( [-20 20 0 1] );
+    disp(i)
+    while conf == 0
+        try
+            ENG = sigmf( e,[antPar(i,1) antPar(i,2)] );
+            ENP = gbellmf( e, [antPar(i,3) antPar(i,4) antPar(i,5)] );
+            EC = gbellmf( e, [antPar(i,6) antPar(i,7) antPar(i,8)] );
+            EPP = gbellmf( e, [antPar(i,9) antPar(i,10) antPar(i,11)] );
+            EPG = sigmf( e, [antPar(i,12) antPar(i,13)] );
+        %     subplot(2,1,2)
+        %     plot(e,ENG,e,ENP,e,EC,e,EPP,e,EPG, 'lineWidth', 3);
+        %     axis( [-20 20 0 1] );
     
-    for j=1:imax
-        W = [ENG(j) ENP(j) EC(j) EPP(j) EPG(j)];
-        f1 = conPar(i,1)*e(j) + conPar(i,2);
-        f2 = conPar(i,3)*e(j) + conPar(i,4);
-        f3 = conPar(i,5)*e(j) + conPar(i,6);
-        f4 = conPar(i,7)*e(j) + conPar(i,8);
-        f5 = conPar(i,9)*e(j) + conPar(i,10);
-        ConCur(j) = min(max((W(1)*f1 + W(2)*f2 + W(3)*f3 + W(4)*f4 + W(5)*f5)  / sum(W), -24), 24);
+            for j=1:imax
+                W = [ENG(j) ENP(j) EC(j) EPP(j) EPG(j)];
+                f1 = conPar(i,1)*e(j) + conPar(i,2);
+                f2 = conPar(i,3)*e(j) + conPar(i,4);
+                f3 = conPar(i,5)*e(j) + conPar(i,6);
+                f4 = conPar(i,7)*e(j) + conPar(i,8);
+                f5 = conPar(i,9)*e(j) + conPar(i,10);
+                ConCur(j) = min(max((W(1)*f1 + W(2)*f2 + W(3)*f3 + W(4)*f4 + W(5)*f5)  / sum(W), -24), 24);
+            end
+            figure()
+            plot(e,ConCur,'linewidth',3);
+            title('Curva de control');
+            ylabel('Voltaje');
+            xlabel('Error');
+             %sim('SnakeRobotPMatlab');
+            sim('SnakeRobotPMatlab');
+            %sim('SnakeRobotPMatlab_1_2_PairedWithFuzzy');
+            disp('success');
+            conf = 1;
+        catch
+            Pop(i,:) = parAmp*(2*rand(1, Nant + Ncon)-1);
+            disp(i)
+        end 
     end
-    
-    sim('PrinterMotorPMatlab');
+    conf = 0;
 %     Mp = max(pos);
 %     tssIndex = find(pos >= (1.05*MaxAmp) | pos <= (0.95*MaxAmp) );
 %     tssIndex = tssIndex(end);
 %     tss = tssIndex * tpaso;
 %     Vss = pos(end);
-    tmax = 50;
     Err = MSE;
     Cost(i) = FitFun(Err(end) / tmax);
 end
@@ -105,14 +124,23 @@ while Iga <= MaxIt
             ConCur(j) = min(max((W(1)*f1 + W(2)*f2 + W(3)*f3 + W(4)*f4 + W(5)*f5)/sum(W), -24), 24);
         end
 
-        sim('PrinterMotorPMatlab');
+        %sim('SnakeRobotPMatlab');
+        while conf == 0
+            try
+                sim('SnakeRobotPMatlab_1_2_PairedWithFuzzy_2');
+                conf = 1;
+            catch
+                Pop(i,:) = parAmp*(2*rand(1, Nant + Ncon)-1);
+                disp(i)
+            end
+        end
+        conf = 0;
 %         Mp = max(pos);
 %         tssIndex = find(pos >= (1.05*MaxAmp) | pos <= (0.95*MaxAmp) );
 %         tssIndex = tssIndex(end);
 %         tss = tssIndex * tpaso;
 %         Vss = pos(end);
         Err = MSE;
-        tmax = 50;
         Cost(i) = FitFun(Err(end) / tmax);
     end
 
@@ -121,8 +149,8 @@ while Iga <= MaxIt
     MaxCost(Iga + 1) = Cost(1);
     MeanCost(Iga + 1) = mean(Cost);
     
-    if Iga > 4 && MaxCost(Iga + 1) == MaxCost(Iga - 4) && mod(Iga, 5) == 0
-        Pop(2:Npop, :) = 100*(2*rand(Npop-1,Nant + Ncon)-1);
+    if Iga > 4 && MaxCost(Iga + 1) == MaxCost(Iga - 4) %&& mod(Iga, 5) == 0
+        Pop(2:Npop, :) = parAmp*(2*rand(Npop-1,Nant + Ncon)-1);
         disp(1)
     end
     
@@ -137,37 +165,37 @@ EPP = gbellmf( e, [Pop(1,9) Pop(1,10) Pop(1,11)] );
 EPG = sigmf( e, [Pop(1,12) Pop(1,13)] );
 figure()
 subplot(3, 2, 1)
+plot(e, ENG);
 title('Función de membresía para ENG');
 ylabel('Grado de Pertenencia');
 xlabel('Error')
-plot(e, ENG);
 subplot(3, 2, 2)
+plot(e, ENP);
 title('Función de membresía para ENP');
 ylabel('Grado de Pertenencia');
 xlabel('Error')
-plot(e, ENP);
 subplot(3, 2, 3)
+plot(e, EC);
 title('Función de membresía para EC');
 ylabel('Grado de Pertenencia');
 xlabel('Error')
-plot(e, EC);
 subplot(3, 2, 4)
+plot(e, EPP);
 title('Función de membresía para EPP');
 ylabel('Grado de Pertenencia');
 xlabel('Error')
-plot(e, EPP);
 subplot(3, 2, 5)
+plot(e, EPG);
 title('Función de membresía para EPG');
 ylabel('Grado de Pertenencia');
 xlabel('Error')
-plot(e, EPG);
 figure()
 subplot(2,1,2)
-title('Funcikones de membresía');
+plot(e,ENG,e,ENP,e,EC,e,EPP,e,EPG, 'lineWidth', 3);
+title('Funciones de membresía');
 ylabel('Grado de Pertenencia');
 xlabel('Error')
-plot(e,ENG,e,ENP,e,EC,e,EPP,e,EPG, 'lineWidth', 3);
-axis( [-20 20 0 1] );
+axis( [-0.1 0.1 0 1] );
 legend('ENG', 'ENP', 'EC', 'EPP', 'EPG');
 
 imax = length(e);
@@ -182,10 +210,10 @@ imax = length(e);
     end
 
 subplot(2,1,1)
+plot(e,ConCur,'linewidth',3);
 title('Curva de control');
 ylabel('Voltaje');
 xlabel('Error');
-plot(e,ConCur,'linewidth',3);
 %axis( [-21 21 -12 12] );
 %sim('PrinterMotorP');
 fprintf ( '%i ', Pop( 1, : ) );
@@ -193,7 +221,7 @@ figure()
 plot( 0:MaxIt, MaxCost, 'b-' );
 hold on
 plot( 0:MaxIt, MeanCost, 'r-' );
-title('Fitness for the population');
+title('Fitness de la población');
 ylabel('Valor');
 xlabel('Generación');
 legend( 'Fitness máximo', 'Fitness Medio' );
