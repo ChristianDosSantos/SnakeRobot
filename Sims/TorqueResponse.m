@@ -1,12 +1,12 @@
 figure()
 plot(t,u1);
-title('Torque in joint 1 for a given serpenoid curve');
+title('Torque en la articulación 1 para una trayectoria de referencia con w = 10º/s');
 ylabel('Torque (Nm)');
-xlabel('Time');
-axis([0 20 -0.2 0.2]);
+xlabel('Tiempo (s)');
+axis([0 40 -0.2 0.2]);
 figure()
 plot(t,u2);
-title('Torque in joint 2 for a given serpenoid curve');
+title('Torque en la articulación 2 para una trayectoria de referencia con w = 10º/s');
 ylabel('Torque (Nm)');
-xlabel('Time');
-axis([0 20 -0.2 0.2]);
+xlabel('Tiempo (s)');
+axis([0 40 -0.2 0.2]);

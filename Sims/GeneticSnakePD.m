@@ -1,6 +1,6 @@
 %Initializing Parameters
 Iga = 0;
-MaxIt= 34;
+MaxIt= 104;
 MutRate = 0;
 Npop = 6;
 MaxAmp = 0.1;
@@ -21,7 +21,7 @@ MeanCost = zeros(Iga+1);
 imax = length(e);
 dimax = length(de);
 ConCur = zeros(1,imax);
-parAmp = 1000000;
+parAmp = 10000;
 conf = 0;
 %tmax = 50;
 

@@ -19,7 +19,7 @@ MaxCost = zeros(Iga+1);
 MeanCost = zeros(Iga+1);
 imax = length(e);
 ConCur = zeros(1,imax);
-parAmp = 1000000;
+parAmp = 10000;
 conf = 0;
 %tmax = 50;
 
